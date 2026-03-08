@@ -91,3 +91,22 @@
   flex-shrink: 0;
   color: var(--text-secondary);
 }
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .search-bar { max-width: 540px; }
+  .search-bar--hero { max-width: 580px; }
+  .search-bar--header { max-width: 360px; }
+}
+
+/* ── Phone ── */
+@media (max-width: 767px) {
+  .search-bar { max-width: 100%; }
+  .search-bar--hero { max-width: 100%; }
+  .search-bar--header { max-width: 100%; }
+  .search-bar__input-wrap { height: 48px; padding: 0 16px; }
+  .search-bar--hero .search-bar__input-wrap { height: 50px; }
+  .search-bar__input { font-size: 14px; }
+  .search-bar__suggestions { border-radius: 12px; }
+  .search-bar__suggestions li { padding: 10px 12px; font-size: 13px; }
+}

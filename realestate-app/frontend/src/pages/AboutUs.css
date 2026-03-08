@@ -50,10 +50,19 @@
   letter-spacing: 0.01em;
 }
 
-@media (max-width: 600px) {
-  .about__container { padding: 40px 20px 60px; }
-  .about__header h1 { font-size: 32px; }
-  .about__lead { font-size: 16px; }
-  .about__section h2 { font-size: 20px; }
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .about__container { padding: 48px 20px 64px; }
+  .about__header { margin-bottom: 36px; }
+}
+
+/* ── Phone ── */
+@media (max-width: 767px) {
+  .about__container { padding: 32px 16px 48px; }
+  .about__header h1 { font-size: 28px; }
+  .about__lead { font-size: 15px; }
+  .about__header { margin-bottom: 28px; }
+  .about__body { gap: 28px; }
+  .about__section h2 { font-size: 19px; }
   .about__section p { font-size: 15px; }
 }

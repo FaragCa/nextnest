@@ -195,7 +195,28 @@
 .pc__guarantee-card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .pc__guarantee-card li { font-size: 14px; color: var(--text-secondary); }
 
-@media (max-width: 900px) {
-  .pc__header { flex-direction: column; gap: 16px; }
-  .pc__cta-section { flex-direction: column; }
+/* ── Tablet: 768–1024px ── */
+@media (max-width: 1024px) {
+  .pc__header { flex-direction: column; gap: 16px; padding: 24px 20px 0; }
+  .pc__table-wrap { padding: 0 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .pc__table { min-width: 700px; }
+  .pc__cta-section { flex-direction: column; padding: 0 20px; }
+  .pc__cta-card { padding: 32px; }
+  .pc__guarantee-card { padding: 24px; }
+}
+
+/* ── Phone: < 768px ── */
+@media (max-width: 767px) {
+  .pc__header { padding: 20px 16px 0; }
+  .pc__header h1 { font-size: 22px; }
+  .pc__header p { font-size: 13px; }
+  .pc__table-wrap { padding: 0 8px; margin-top: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .pc__table { min-width: 600px; }
+  .pc__cell--label { min-width: 100px; font-size: 13px; padding: 12px 8px; }
+  .pc__cell { padding: 12px 8px; }
+  .pc__prop-img { height: 140px; border-radius: 16px; }
+  .pc__cta-section { padding: 0 16px; margin-top: 32px; gap: 16px; }
+  .pc__cta-card { padding: 24px 20px; border-radius: 24px; }
+  .pc__cta-card h2 { font-size: 20px; }
+  .pc__guarantee-card { padding: 20px; border-radius: 24px; }
 }

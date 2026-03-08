@@ -69,6 +69,70 @@
 }
 .navbar--home .navbar__avatar { background: rgba(255,255,255,0.15); color: #fff; }
 
-@media (max-width: 768px) {
-  .navbar__links { display: none; }
+/* ── Hamburger button (hidden on desktop) ── */
+.navbar__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.navbar__hamburger-line {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.navbar--home .navbar__hamburger-line { background: #fff; }
+.navbar__hamburger-line.open:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.navbar__hamburger-line.open:nth-child(2) { opacity: 0; }
+.navbar__hamburger-line.open:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* ── Tablet: 768–1024px ── */
+@media (max-width: 1024px) {
+  .navbar__logo { height: 100px; }
+  .navbar__links { gap: 20px; }
+  .navbar__links a { font-size: 15px; }
+  .navbar__cta { font-size: 14px; padding: 10px 20px; }
+}
+
+/* ── Phone: < 768px ── */
+@media (max-width: 767px) {
+  .navbar__inner { padding: 12px 16px; }
+  .navbar__logo { height: 80px; }
+  .navbar__links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    gap: 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,.1);
+    z-index: 99;
+  }
+  .navbar--home .navbar__links { background: var(--navy); }
+  .navbar__links--open { display: flex; }
+  .navbar__links a {
+    padding: 14px 0;
+    font-size: 16px;
+    border-bottom: 1px solid var(--border);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+  .navbar__links a:last-child { border-bottom: none; }
+  .navbar--home .navbar__links a { border-bottom-color: rgba(255,255,255,.1); }
+  .navbar__hamburger { display: flex; }
+  .navbar__cta { display: none; }
+  .navbar__avatar { display: none; }
 }

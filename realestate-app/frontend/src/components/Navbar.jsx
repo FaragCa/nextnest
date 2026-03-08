@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 export default function Navbar() {
   const { pathname } = useLocation();
   const isHome = pathname === '/';
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className={`navbar ${isHome ? 'navbar--home' : ''}`}>
@@ -12,11 +14,11 @@ export default function Navbar() {
           <img src="/logo.png" alt="NextNest" className="navbar__logo" />
         </Link>
 
-        <nav className="navbar__links">
-          <Link to="/search" className={pathname === '/search' ? 'active' : ''}>Find Home</Link>
-          <Link to="/compare" className={pathname === '/compare' ? 'active' : ''}>Compare</Link>
-          <Link to="/family-profile" className={pathname === '/family-profile' ? 'active' : ''}>Family Profile</Link>
-          <Link to="/about" className={pathname === '/about' ? 'active' : ''}>About Us</Link>
+        <nav className={`navbar__links ${menuOpen ? 'navbar__links--open' : ''}`}>
+          <Link to="/search" className={pathname === '/search' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Find Home</Link>
+          <Link to="/compare" className={pathname === '/compare' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Compare</Link>
+          <Link to="/family-profile" className={pathname === '/family-profile' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Family Profile</Link>
+          <Link to="/about" className={pathname === '/about' ? 'active' : ''} onClick={() => setMenuOpen(false)}>About Us</Link>
         </nav>
 
         <div className="navbar__actions">
@@ -27,6 +29,11 @@ export default function Navbar() {
               <path d="M2 18c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" strokeWidth="1.5" fill="none"/>
             </svg>
           </div>
+          <button className="navbar__hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+            <span className={`navbar__hamburger-line ${menuOpen ? 'open' : ''}`} />
+            <span className={`navbar__hamburger-line ${menuOpen ? 'open' : ''}`} />
+            <span className={`navbar__hamburger-line ${menuOpen ? 'open' : ''}`} />
+          </button>
         </div>
       </div>
     </header>

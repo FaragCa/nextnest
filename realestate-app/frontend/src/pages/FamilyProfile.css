@@ -297,20 +297,32 @@
   font-weight: 600;
 }
 
-/* ── Responsive ── */
-@media (max-width: 700px) {
-  .fp-grid {
-    grid-template-columns: 1fr;
-  }
-  .fp-checks {
-    grid-template-columns: 1fr 1fr;
-  }
-  .fp-pills {
-    flex-direction: column;
-  }
-  .fp-hero h1 {
-    font-size: 24px;
-  }
+/* ── Tablet: 768–1024px ── */
+@media (max-width: 1024px) {
+  .fp-hero { padding: 36px 20px 32px; }
+  .fp-form { max-width: 680px; }
+  .fp-section { padding: 20px; }
+  .fp-results { padding: 24px 20px 0; }
+}
+
+/* ── Phone: < 768px ── */
+@media (max-width: 767px) {
+  .fp-hero { padding: 32px 16px 28px; }
+  .fp-hero h1 { font-size: 24px; }
+  .fp-hero p { font-size: 14px; }
+  .fp-form { padding: 0 12px; margin-top: -16px; }
+  .fp-section { padding: 16px; border-radius: 12px; }
+  .fp-section__title { font-size: 16px; }
+  .fp-grid { grid-template-columns: 1fr; gap: 10px; }
+  .fp-checks { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fp-check { padding: 8px 10px; font-size: 13px; }
+  .fp-pills { flex-direction: column; gap: 8px; }
+  .fp-pill { padding: 10px; font-size: 14px; }
+  .fp-submit { padding: 14px; font-size: 15px; }
+  .fp-results { padding: 20px 12px 0; }
+  .fp-results__title { font-size: 20px; }
+  .fp-results__grid { grid-template-columns: 1fr; gap: 16px; }
+  .fp-card__img { height: 160px; }
 }
 
 /* ── Preset Dropdown ── */

@@ -426,15 +426,42 @@
   cursor: not-allowed;
 }
 
-@media (max-width: 900px) {
+/* ── Tablet: 768–1024px ── */
+@media (max-width: 1024px) {
+  .filter-bar { padding: 10px 16px; gap: 10px; }
+  .filter-dd__trigger { padding: 8px 14px; font-size: 13px; }
+  .search-page__list { padding: 16px; }
+  .prop-card__img { width: 180px; }
+  .search-page__meta h2 { font-size: 18px; }
+  .filter-dd__menu--hybrid { min-width: 320px; }
+}
+
+/* ── Phone: < 768px ── */
+@media (max-width: 767px) {
+  .search-page { height: auto; min-height: 100vh; }
+  .filter-bar { padding: 10px 12px; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+  .filter-bar__filters { flex-wrap: nowrap; }
+  .filter-dd__trigger { padding: 8px 12px; font-size: 12px; }
+  .filter-dd__menu { left: -8px; min-width: 200px; }
+  .filter-dd__menu--hybrid { min-width: calc(100vw - 32px); left: 50%; transform: translateX(-50%); }
   .search-page__body { flex-direction: column; }
-  .search-page__list { width: 100%; border-right: none; }
-  .search-page__map { width: 100%; height: 300px; }
+  .search-page__list { width: 100%; border-right: none; padding: 12px; overflow-y: visible; }
+  .search-page__map { width: 100%; height: 280px; order: -1; }
+  .search-page__meta h2 { font-size: 18px; }
+  .search-page__meta { gap: 8px; margin-bottom: 12px; }
   .prop-card { flex-direction: column; }
   .prop-card__img { width: 100%; height: 180px; }
+  .prop-card__body { padding: 12px 16px; }
+  .prop-card__title { font-size: 15px; }
+  .prop-card__price { font-size: 16px; }
+  .prop-card__specs { gap: 8px; font-size: 12px; }
+  .prop-card__tags { gap: 4px; }
+  .tag { font-size: 11px; padding: 2px 8px; }
   .pagination { padding: 16px 0; }
   .pagination__controls { gap: 4px; }
   .pagination__btn { padding: 7px 10px; font-size: 12px; }
+  .compare-fab { bottom: 16px; padding: 10px 22px; font-size: 13px; }
+  .search-area-btn { font-size: 12px; padding: 8px 18px; }
 }
 
 /* ── Pagination ── */

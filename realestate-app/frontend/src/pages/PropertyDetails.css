@@ -396,10 +396,47 @@
 .pd__overlay-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
 .pd__overlay-card .btn { padding: 12px 32px; }
 
-@media (max-width: 1000px) {
-  .pd__main { flex-direction: column; padding: 24px 16px; }
+/* ── Tablet: 768–1024px ── */
+@media (max-width: 1024px) {
+  .pd__main { flex-direction: column; padding: 24px 20px; }
   .pd__sidebar { width: 100%; }
   .pd__sidebar-card { position: static; }
   .pd__title { font-size: 28px; }
-  .pd__gallery-main { height: 300px; }
+  .pd__gallery-main { height: 340px; }
+  .pd__commute-results { flex-wrap: wrap; }
+  .pd__neighborhood-grid { gap: 20px; }
+  .pd__header { flex-direction: column; gap: 12px; }
+  .pd__header-right { text-align: left; }
+  .pd__specs { gap: 20px; flex-wrap: wrap; }
+}
+
+/* ── Phone: < 768px ── */
+@media (max-width: 767px) {
+  .pd__main { padding: 16px 12px; gap: 24px; }
+  .pd__gallery-main { height: 240px; border-radius: 24px; }
+  .pd__gallery-arrow { width: 34px; height: 34px; }
+  .pd__gallery-arrow--left { left: 8px; }
+  .pd__gallery-arrow--right { right: 8px; }
+  .pd__thumb { width: 80px; height: 56px; border-radius: 12px; }
+  .pd__title { font-size: 24px; }
+  .pd__price { font-size: 22px; }
+  .pd__address { font-size: 14px; }
+  .pd__specs { gap: 16px; padding: 16px 0; }
+  .pd__about h2, .pd__amenities h2, .pd__schools h2 { font-size: 18px; }
+  .pd__commute { padding: 24px 16px; border-radius: 24px; }
+  .pd__commute-input { flex-direction: column; }
+  .pd__commute-results { flex-direction: column; gap: 8px; }
+  .pd__commute-mode { justify-content: center; }
+  .pd__neighborhood { padding: 20px 16px; border-radius: 24px; }
+  .pd__neighborhood-grid { flex-direction: column; gap: 16px; }
+  .pd__walk-score { align-self: center; }
+  .insight-row > span:first-child { min-width: 100px; font-size: 12px; }
+  .pd__school-row { flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px 14px; }
+  .pd__school-links { width: 100%; }
+  .pd__school-link { flex: 1; text-align: center; }
+  .pd__sidebar-card { padding: 20px; border-radius: 24px; }
+  .pd__why-card { padding: 20px; border-radius: 24px; }
+  .pd__overlay-card { padding: 28px 20px; }
+  .pd__overlay-card h3 { font-size: 18px; }
+  .pd__actions { flex-wrap: wrap; }
 }
