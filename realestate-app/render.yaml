@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: nextnest
+    runtime: python
+    buildCommand: bash build.sh
+    startCommand: cd backend && python app.py
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: PYTHON_VERSION
+        value: "3.13"
+      - key: NODE_VERSION
+        value: "20"
