@@ -15,6 +15,13 @@ import pandas as pd
 app = Flask(__name__, static_folder='../frontend/dist', static_url_path='')
 CORS(app)  # Enable CORS for React frontend
 
+@app.after_request
+def add_no_cache_headers(response):
+    if request.path.startswith('/api/'):
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+    return response
+
 # ============================================================================
 # PROPERTY SEARCH (Using HomeHarvest - FREE!)
 # ============================================================================
@@ -252,13 +259,16 @@ def calculate_commute():
         )
         
         if route:
-            return jsonify({
+            result = {
                 'success': True,
                 'straight_line_distance_miles': round(distance, 2),
                 'route_distance_miles': route['distance_miles'],
                 'duration_minutes': route['duration_minutes'],
                 'mode': mode
-            })
+            }
+            if route.get('geometry'):
+                result['geometry'] = route['geometry']
+            return jsonify(result)
         else:
             return jsonify({
                 'success': True,
@@ -297,17 +307,20 @@ def get_osrm_route(start_lat, start_lng, end_lat, end_lng, mode='driving'):
         osrm_mode = {'driving': 'car', 'walking': 'foot', 'cycling': 'bicycle'}.get(mode, 'car')
         
         url = f"http://router.project-osrm.org/route/v1/{osrm_mode}/{start_lng},{start_lat};{end_lng},{end_lat}"
-        params = {'overview': 'false', 'steps': 'false'}
+        params = {'overview': 'full', 'geometries': 'geojson', 'steps': 'false'}
         
         response = requests.get(url, params=params, timeout=10)
         data = response.json()
         
         if data.get('code') == 'Ok' and data.get('routes'):
             route = data['routes'][0]
-            return {
+            result = {
                 'distance_miles': round(route['distance'] / 1609.34, 2),
                 'duration_minutes': round(route['duration'] / 60, 1)
             }
+            if route.get('geometry'):
+                result['geometry'] = route['geometry']
+            return result
         
         return None
         

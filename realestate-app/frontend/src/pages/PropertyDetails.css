@@ -210,6 +210,34 @@
   color: #fff;
 }
 .pd__commute-mode-icon { font-size: 16px; }
+.pd__commute-mode-dist { font-size: 12px; opacity: .7; }
+.pd__commute-mode { flex-direction: column; }
+.pd__commute-summary {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pd__commute-summary-row {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(255,255,255,.85);
+  line-height: 1.5;
+}
+.pd__commute-label {
+  min-width: 80px;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: rgba(255,255,255,.6);
+}
+.pd__commute-summary-row strong {
+  color: #fff;
+}
 .pd__commute-map { margin-top: 16px; border-radius: 16px; overflow: hidden; }
 
 /* ── Amenities ── */

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import Footer from '../components/Footer';
 import { getAmenities, calculateCommute } from '../services/api';
@@ -19,6 +19,17 @@ const AMENITY_ICONS = {
   restaurants: 'Restaurants', pharmacies: 'Pharmacies', libraries: 'Libraries', community_centers: 'Community', vets: 'Vets',
 };
 
+/* ── Auto-fit map bounds when route/markers change ── */
+function FitBounds({ bounds }) {
+  const map = useMap();
+  useEffect(() => {
+    if (bounds && bounds.length === 2) {
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
+    }
+  }, [bounds, map]);
+  return null;
+}
+
 export default function PropertyDetails() {
   const { id } = useParams();
   const loc = useLocation();
@@ -29,6 +40,8 @@ export default function PropertyDetails() {
   const [commuteMode, setCommuteMode] = useState('driving');
   const [workAddress, setWorkAddress] = useState('');
   const [commuteLoading, setCommuteLoading] = useState(false);
+  const [workCoords, setWorkCoords] = useState(null);
+  const [routeGeometry, setRouteGeometry] = useState(null);
   const [amenitiesLoading, setAmenitiesLoading] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', date: '' });
@@ -65,6 +78,7 @@ export default function PropertyDetails() {
   const handleCommuteCalc = async () => {
     if (!workAddress.trim() || !property?.latitude) return;
     setCommuteLoading(true);
+    setRouteGeometry(null);
     try {
       // Geocode work address using OpenStreetMap Nominatim
       const geoRes = await fetch(
@@ -75,8 +89,10 @@ export default function PropertyDetails() {
 
       const workLat = parseFloat(geoData[0].lat);
       const workLng = parseFloat(geoData[0].lon);
+      setWorkCoords({ lat: workLat, lng: workLng, displayName: geoData[0].display_name });
 
       const results = {};
+      let firstGeometry = null;
       for (const mode of ['driving', 'walking', 'cycling']) {
         const res = await calculateCommute({
           property_lat: property.latitude,
@@ -90,9 +106,15 @@ export default function PropertyDetails() {
             distance: res.data.route_distance_miles || res.data.straight_line_distance_miles,
             duration: res.data.duration_minutes || Math.round((res.data.straight_line_distance_miles || 0) * 4),
           };
+          if (res.data.geometry) {
+            results[mode].geometry = res.data.geometry;
+            if (!firstGeometry) firstGeometry = res.data.geometry;
+          }
         }
       }
       setCommuteResult(results);
+      const activeGeo = results.driving?.geometry || firstGeometry;
+      if (activeGeo) setRouteGeometry(activeGeo);
     } catch (err) {
       console.error('Commute calculation failed:', err);
     } finally {
@@ -275,7 +297,10 @@ export default function PropertyDetails() {
                   <button
                     key={mode}
                     className={`pd__commute-mode ${commuteMode === mode ? 'active' : ''}`}
-                    onClick={() => setCommuteMode(mode)}
+                    onClick={() => {
+                      setCommuteMode(mode);
+                      if (commuteResult[mode]?.geometry) setRouteGeometry(commuteResult[mode].geometry);
+                    }}
                   >
                     <span className="pd__commute-mode-icon">
                       {mode === 'driving' ? 'Drive' : mode === 'cycling' ? 'Bike' : 'Walk'}
@@ -283,17 +308,54 @@ export default function PropertyDetails() {
                     <span className="pd__commute-mode-time">
                       {commuteResult[mode]?.duration ? `${Math.round(commuteResult[mode].duration)} min` : 'N/A'}
                     </span>
+                    <span className="pd__commute-mode-dist">
+                      {commuteResult[mode]?.distance ? `${commuteResult[mode].distance} mi` : ''}
+                    </span>
                   </button>
                 ))}
               </div>
             )}
+            {commuteResult && commuteResult[commuteMode] && (
+              <div className="pd__commute-summary">
+                <div className="pd__commute-summary-row">
+                  <span className="pd__commute-label">From:</span>
+                  <span>{property.formatted_address || property.full_street_line}</span>
+                </div>
+                <div className="pd__commute-summary-row">
+                  <span className="pd__commute-label">To:</span>
+                  <span>{workCoords?.displayName || workAddress}</span>
+                </div>
+                <div className="pd__commute-summary-row">
+                  <span className="pd__commute-label">Distance:</span>
+                  <span><strong>{commuteResult[commuteMode].distance} miles</strong></span>
+                </div>
+                <div className="pd__commute-summary-row">
+                  <span className="pd__commute-label">Est. Time:</span>
+                  <span><strong>{Math.round(commuteResult[commuteMode].duration)} minutes</strong> ({commuteMode})</span>
+                </div>
+              </div>
+            )}
             {property.latitude && (
               <div className="pd__commute-map">
-                <MapContainer center={[property.latitude, property.longitude]} zoom={13} scrollWheelZoom={false} style={{ height: '200px', width: '100%', borderRadius: '16px' }}>
+                <MapContainer center={[property.latitude, property.longitude]} zoom={13} scrollWheelZoom={true} style={{ height: workCoords ? '350px' : '200px', width: '100%', borderRadius: '16px' }}>
                   <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                   <Marker position={[property.latitude, property.longitude]}>
-                    <Popup>Property</Popup>
+                    <Popup><strong>Property</strong><br />{property.formatted_address || property.full_street_line}</Popup>
                   </Marker>
+                  {workCoords && (
+                    <Marker position={[workCoords.lat, workCoords.lng]}>
+                      <Popup><strong>Work</strong><br />{workCoords.displayName || workAddress}</Popup>
+                    </Marker>
+                  )}
+                  {routeGeometry && routeGeometry.coordinates && (
+                    <Polyline
+                      positions={routeGeometry.coordinates.map(c => [c[1], c[0]])}
+                      pathOptions={{ color: '#2563eb', weight: 5, opacity: 0.8 }}
+                    />
+                  )}
+                  {workCoords && (
+                    <FitBounds bounds={[[property.latitude, property.longitude], [workCoords.lat, workCoords.lng]]} />
+                  )}
                 </MapContainer>
               </div>
             )}
