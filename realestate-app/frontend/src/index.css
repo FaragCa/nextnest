@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f5f7f8;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; background: none; }
+input, select { font-family: inherit; outline: none; }
+.leaflet-container { font-family: 'Inter', sans-serif !important; z-index: 0; }
+
+:root {
+  --navy: #00144f;
+  --navy-light: #0f172a;
+  --blue: #0054d1;
+  --gold: #f7be46;
+  --gold-dark: #f5ae18;
+  --bg: #f5f7f8;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --pill: #f1f5f9;
+  --text: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --radius-lg: 48px;
+  --radius-full: 9999px;
+}
