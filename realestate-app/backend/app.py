@@ -173,7 +173,7 @@ def search_osm(lat, lng, amenity_type, radius=3000, use_leisure=False):
     Returns: List of {name, lat, lng, distance}
     """
     try:
-        overpass_url = "http://overpass-api.de/api/interpreter"
+        overpass_url = "https://overpass-api.de/api/interpreter"
         
         if use_leisure:
             # Parks use leisure tag instead of amenity
@@ -306,7 +306,7 @@ def get_osrm_route(start_lat, start_lng, end_lat, end_lng, mode='driving'):
         # OSRM modes: car, foot, bicycle
         osrm_mode = {'driving': 'car', 'walking': 'foot', 'cycling': 'bicycle'}.get(mode, 'car')
         
-        url = f"http://router.project-osrm.org/route/v1/{osrm_mode}/{start_lng},{start_lat};{end_lng},{end_lat}"
+        url = f"https://router.project-osrm.org/route/v1/{osrm_mode}/{start_lng},{start_lat};{end_lng},{end_lat}"
         params = {'overview': 'full', 'geometries': 'geojson', 'steps': 'false'}
         
         response = requests.get(url, params=params, timeout=10)
